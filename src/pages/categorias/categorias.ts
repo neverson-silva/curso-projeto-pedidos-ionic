@@ -1,3 +1,5 @@
+import { CategoriaDTO } from './../../models/categoria.dto';
+import { CategoriaService } from './../../services/domain/categoria.service';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
@@ -15,11 +17,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams,
+              private catService: CategoriaService) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CategoriasPage');
+  async ionViewDidLoad() {
+    try {
+      const categorias: CategoriaDTO[] = await this.catService.findAll();
+      categorias.forEach((v) => console.log(v.nome));
+      console.log(categorias);
+
+    } catch(e) {
+      console.log(e);
+    }
+    
   }
 
 }
