@@ -1,3 +1,4 @@
+import { API_CONFIG } from './../../config/api.config';
 import { CategoriaDTO } from './../../models/categoria.dto';
 import { CategoriaService } from './../../services/domain/categoria.service';
 import { Component } from '@angular/core';
@@ -17,6 +18,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class CategoriasPage {
 
+  items: CategoriaDTO[];
+  bucketUrl: string = API_CONFIG.bucketBaseUrl;
+
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private catService: CategoriaService) {
@@ -24,9 +28,7 @@ export class CategoriasPage {
 
   async ionViewDidLoad() {
     try {
-      const categorias: CategoriaDTO[] = await this.catService.findAll();
-      categorias.forEach((v) => console.log(v.nome));
-      console.log(categorias);
+      this.items = await this.catService.findAll();
 
     } catch(e) {
       console.log(e);
