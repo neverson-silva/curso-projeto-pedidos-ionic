@@ -43,6 +43,7 @@ export default class HttpService {
         withCredentials?: boolean;
     }): Promise<Object> {
         url = `${this.baseUrl}/${url}`;
+        //@ts-ignore
         return this.http.post(url, body, options).toPromise();
     }
 
