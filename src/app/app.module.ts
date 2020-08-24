@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import HttpService from '../services/http.service';
+import { ErrorInterceptorHandler } from '../interceptors/error-interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import HttpService from '../services/http.service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     CategoriaService,
-    HttpService
+    HttpService,
+    ErrorInterceptorHandler
   ]
 })
 export class AppModule {}

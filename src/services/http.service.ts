@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { API_CONFIG } from './../config/api.config';
 import { Injectable } from "@angular/core";
 
