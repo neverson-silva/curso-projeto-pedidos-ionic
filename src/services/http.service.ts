@@ -23,10 +23,11 @@ export default class HttpService {
             [param: string]: string | string[];
         };
         reportProgress?: boolean;
-        responseType: 'arraybuffer';
+        responseType: 'arraybuffer'| 'text' | 'blob';
         withCredentials?: boolean;
-    }): Promise<any> {
-        url = `${this.baseUrl}/${url}`;
+    }, useBaseUrl: boolean = true): Promise<any> {
+        url = this.getUrl(url, useBaseUrl);
+        //@ts-ignore
         return this.http.get(url, options).toPromise();
     }
 
@@ -41,8 +42,8 @@ export default class HttpService {
         reportProgress?: boolean;
         responseType?: 'json' | 'text';
         withCredentials?: boolean;
-    }): Promise<Object> {
-        url = `${this.baseUrl}/${url}`;
+    }, useBaseUrl: boolean = true): Promise<Object> {
+        url = this.getUrl(url, useBaseUrl);
         //@ts-ignore
         return this.http.post(url, body, options).toPromise();
     }
@@ -58,8 +59,8 @@ export default class HttpService {
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    }): Promise<Object> {
-        url = `${this.baseUrl}/${url}`;
+    }, useBaseUrl: boolean = true): Promise<Object> {
+        url = this.getUrl(url, useBaseUrl);
         return this.http.put(url, options).toPromise();
     }
 
@@ -74,12 +75,24 @@ export default class HttpService {
         reportProgress?: boolean;
         responseType?: 'json';
         withCredentials?: boolean;
-    }): Promise<Object> {
-        url = `${this.baseUrl}/${url}`;
+    }, useBaseUrl: boolean = true): Promise<Object> {
+        url = this.getUrl(url, useBaseUrl);
         return this.http.delete(url, options).toPromise();
     }
 
     public setBaseUrl(baseUrl: string) {
         this.baseUrl = baseUrl;
+    }
+
+    public getBaseUrl(): string {
+        return this.baseUrl;
+    }
+
+    private getUrl(url: string, useBaseUrl: boolean = true) {
+        if (this.baseUrl == '' || !this.baseUrl || !useBaseUrl) {
+            return url;
+        } else {
+            return `${this.baseUrl}/${url}`;
+        }
     }
 }

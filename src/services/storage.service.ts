@@ -19,6 +19,5 @@ export class StorageService {
             localStorage.removeItem(STORAGE_KEYS.localUser);
         }
         localStorage.setItem(STORAGE_KEYS.localUser, JSON.stringify(user));
-
     }
 }

@@ -4,10 +4,14 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Categorias</ion-title>
+    <ion-title>Perfil</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  {{ email }}
+  <ion-avatar item-left>
+    <img class="circle" [src]="cliente?.imageUrl || 'assets/imgs/avatar-blank.png'">
+    <h2 text-center> {{ cliente?.nome}}</h2>
+    <p text-center> {{ cliente?.email}}</p>
+  </ion-avatar>
 </ion-content>
