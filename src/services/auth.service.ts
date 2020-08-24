@@ -1,3 +1,5 @@
+import { LocalUser } from './../models/localUser';
+import { StorageService } from './storage.service';
 import { CredenciaisDTO } from './../models/credencias.dto';
 import { Injectable } from "@angular/core";
 import HttpService from './http.service';
@@ -5,7 +7,8 @@ import HttpService from './http.service';
 @Injectable()
 export class AuthService {
 
-    constructor(private http: HttpService) {}
+    constructor(private http: HttpService,
+        private storage: StorageService) {}
 
     async authenticate(credenciais: CredenciaisDTO) {
 
@@ -13,5 +16,18 @@ export class AuthService {
             observe: 'response',
             responseType: 'text',
         });
+    }
+
+    successfulLogin(authorizationValue: string) {
+
+        let token = authorizationValue.replace("Bearer ", "");
+        let user: LocalUser = {
+            token
+        };
+        this.storage.setLocalUser(user);
+    }
+
+    logout() {
+        this.storage.setLocalUser(null);
     }
 }
