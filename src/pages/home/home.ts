@@ -32,7 +32,6 @@ export class HomePage {
     try {
       
       const response = await this.auth.authenticate(this.credenciais);
-
       // @ts-ignore
       this.auth.successfulLogin(response.headers.get('Authorization'));
       this.navCtrl.setRoot("CategoriasPage");

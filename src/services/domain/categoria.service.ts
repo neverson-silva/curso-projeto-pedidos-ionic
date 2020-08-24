@@ -12,6 +12,6 @@ export class CategoriaService {
 
     async findAll() : Promise<CategoriaDTO[]>{
 
-        return await this.http.get('categorias');
+        return await this.http.get('categoriass');
     }
 }
