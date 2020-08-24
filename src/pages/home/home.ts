@@ -28,6 +28,19 @@ export class HomePage {
    this.changeSwap(true);
   }
 
+  async ionViewDidEnter(){
+    try {
+      
+      const response = await this.auth.refreshToken();
+      // @ts-ignore
+      this.auth.successfulLogin(response.headers.get('Authorization'));
+      this.navCtrl.setRoot("CategoriasPage");
+
+    } catch (e) {
+
+    }
+  }
+
   async login() {
     try {
       
