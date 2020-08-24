@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { StorageService } from '../services/storage.service';
+import { NavController  } from 'ionic-angular';
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
+
         let user = this.storage.getLocalUser();
         let N = API_CONFIG.baseUrl.length;
         let requestToApi = req.url.substring(0, N) == API_CONFIG.baseUrl;

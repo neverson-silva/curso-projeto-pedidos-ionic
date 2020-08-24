@@ -14,10 +14,16 @@ export class AuthService {
 
     async authenticate(credenciais: CredenciaisDTO) {
 
-        return await this.http.post( 'login', credenciais, {
-            observe: 'response',
-            responseType: 'text',
-        });
+        try {
+            return await this.http.post( 'login', credenciais, {
+                observe: 'response',
+                responseType: 'text',
+            });
+        } catch(e) {
+            console.log(e)
+        }
+
+
     }
 
     successfulLogin(authorizationValue: string) {

@@ -2,14 +2,13 @@ import { API_CONFIG } from './../../config/api.config';
 import { Injectable } from "@angular/core";
 import HttpService from "../http.service";
 import { ClienteDTO } from "../../models/cliente.dto";
-import { StorageService } from "../storage.service";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 
 @Injectable()
 export class ClienteService extends HttpService{
 
 
-    constructor(https: HttpClient, private storage: StorageService) {
+    constructor(https: HttpClient) {
         super(https);
     }
     async findByEmail(email: string): Promise<ClienteDTO> {

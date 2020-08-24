@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
+import { StorageService } from '../services/storage.service';
+import { App } from 'ionic-angular';
 
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
+    constructor(private readonly storage: StorageService,  private app: App) {
+
+    }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(req)
                    .catch((error, caugth) => {
@@ -17,10 +22,24 @@ export class ErrorInterceptor implements HttpInterceptor {
                        if (!errorObj.status) {
                            errorObj = JSON.parse(error);
                        }
-                       console.log('Erro detectado pelo interceptor: ');
+
+                       switch(errorObj.status) {
+                           case 403:
+                               this.handle403();
+                            break;
+                       }
                        console.log(errorObj);
                        return Observable.throw(errorObj);
                    }) as any; 
+    }
+
+    handle403() {
+        this.storage.setLocalUser(null);
+        this.goToHome();
+    }
+    
+    private goToHome() {
+        this.app.getActiveNavs()[0].setRoot("HomePage");
     }
 }
 
