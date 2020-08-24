@@ -1,6 +1,7 @@
 import { CredenciaisDTO } from './../../models/credencias.dto';
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-home',
@@ -13,7 +14,9 @@ export class HomePage {
     email: "",
     senha: ""
   };
-  constructor(public navCtrl: NavController, private menu: MenuController) {
+  constructor(public navCtrl: NavController, 
+      private menu: MenuController,
+      private auth: AuthService) {
 
   }
 
@@ -25,9 +28,17 @@ export class HomePage {
    this.changeSwap(true);
   }
 
-  login() {
-    console.log(this.credenciais);
-    this.navCtrl.setRoot("CategoriasPage");
+  async login() {
+    try {
+      
+      const response = await this.auth.authenticate(this.credenciais);
+      console.log(response.headers.get('Authorization'));
+      this.navCtrl.setRoot("CategoriasPage");
+
+    } catch (e) {
+
+    }
+
 
   }
 

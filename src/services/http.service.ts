@@ -34,16 +34,16 @@ export default class HttpService {
         headers?: HttpHeaders | {
             [header: string]: string | string[];
         };
-        observe?: 'body';
+        observe?: 'body' | 'response';
         params?: HttpParams | {
             [param: string]: string | string[];
         };
         reportProgress?: boolean;
-        responseType?: 'json';
+        responseType?: 'json' | 'text';
         withCredentials?: boolean;
     }): Promise<Object> {
         url = `${this.baseUrl}/${url}`;
-        return this.http.post(url, options).toPromise();
+        return this.http.post(url, body, options).toPromise();
     }
 
     async put(url: string, body: any | null, options?: {
