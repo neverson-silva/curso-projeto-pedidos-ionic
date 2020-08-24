@@ -9,18 +9,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 export class ClienteService extends HttpService{
 
 
-    constructor(private https: HttpClient, private storage: StorageService) {
+    constructor(https: HttpClient, private storage: StorageService) {
         super(https);
     }
     async findByEmail(email: string): Promise<ClienteDTO> {
-
-        let token = this.storage.getLocalUser()?.token;
-        let authHeader = new HttpHeaders({
-            authorization: "Bearer " + token
-        });
-
         //@ts-ignore
-        return await this.get(`clientes/email?value=${email}`, {headers: authHeader});
+        return await this.get(`clientes/email?value=${email}`);
     }
 
     async getUrlFromBucket(id: string) {
