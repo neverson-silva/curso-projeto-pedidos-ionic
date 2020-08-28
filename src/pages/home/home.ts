@@ -52,7 +52,10 @@ export class HomePage {
     } catch (e) {
 
     }
+  }
 
+  signup() {
+    this.navCtrl.setRoot("SignupPage");
 
   }
 

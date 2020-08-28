@@ -37,7 +37,7 @@ import { ClienteService } from '../services/domain/cliente.service';
     ErrorInterceptorHandler,
     AuthService,
     StorageService,
-    ClienteService
+    ClienteService,
   ]
 })
 export class AppModule {}

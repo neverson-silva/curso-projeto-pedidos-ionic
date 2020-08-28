@@ -8,7 +8,6 @@ import {JwtHelper } from 'angular2-jwt';
 export class AuthService {
 
     jwtHelper: JwtHelper = new JwtHelper();
-    tentativa: number = 0;
 
     constructor(private http: HttpService,
         private storage: StorageService) {}
@@ -23,15 +22,18 @@ export class AuthService {
     
     async refreshToken() {
 
-        console.log(this.tentativa);
-        if (this.tentativa < 1) {
+        if (this.isAuthenticated) {
             return await this.http.post( 'auth/refresh_token', {}, {
                 observe: 'response',
                 responseType: 'text',
             });
         }
-        this.tentativa += 1;
+    }
 
+    get isAuthenticated() {
+        let isAuth = this.storage.getItem("authenticated");
+
+        return isAuth === 'true';
     }
 
     successfulLogin(authorizationValue: string) {
@@ -42,9 +44,11 @@ export class AuthService {
             email: this.jwtHelper.decodeToken(token).sub
         };
         this.storage.setLocalUser(user);
+        this.storage.setItem("authenticated", "true");
     }
 
     logout() {
         this.storage.setLocalUser(null);
+        this.storage.remove("authenticated");
     }
 }

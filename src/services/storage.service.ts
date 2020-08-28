@@ -21,5 +21,17 @@ export class StorageService {
         localStorage.setItem(STORAGE_KEYS.localUser, JSON.stringify(user));
     }
 
+    setItem(name: string, value: string) {
+        localStorage.setItem(name, value);
+    }
+
+    getItem(name: string) {
+        return localStorage.getItem(name);
+    }
+
+    remove(name: string) {
+        localStorage.removeItem(name);
+    }
+
     
 }
