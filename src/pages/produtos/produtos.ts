@@ -20,11 +20,24 @@ export class ProdutosPage {
 
   async ionViewDidLoad() {
     try {
-      const response = await this.pds.findByCategoria(this.navParams.get('categoriaId'));
+      const id = this.navParams.get('categoriaId');
+      const response = await this.pds.findByCategoria(id);
       this.items = response.content;
+      await this.loadImageUrls();
     } catch (e) {
       this.items = [];
     }
   }
-  
+
+  async loadImageUrls () {
+      this.items.forEach(async (item) => {
+        try {
+          await this.pds.getSmallImageFromBucket(item.id);
+          item.imageUrl = this.pds.getUrlProduto(item.id);
+        } catch (e) {
+          item.imageUrl = 'assets/imgs/prod.jpg';
+        }
+      });
+
+    }  
 }
