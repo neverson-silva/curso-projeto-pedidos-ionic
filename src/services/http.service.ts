@@ -10,7 +10,7 @@ export default class HttpService {
 
     private baseUrl = API_CONFIG.baseUrl;
 
-    constructor(private http: HttpClient) {
+    constructor(protected http: HttpClient) {
 
     }
 
