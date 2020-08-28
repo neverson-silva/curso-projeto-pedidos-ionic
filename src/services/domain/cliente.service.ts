@@ -21,4 +21,10 @@ export class ClienteService extends HttpService{
 
         return await this.get(url, {responseType: 'blob'}, false);
     }
+
+    async insert(client: ClienteDTO) {
+
+        return await this.post("clientes", client, 
+        {observe: 'response', responseType: 'text'});
+    }
 }

@@ -1,3 +1,4 @@
+import { FieldMessage } from './../models/field-message';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
@@ -32,12 +33,19 @@ export class ErrorInterceptor implements HttpInterceptor {
                             case 401:
                                 this.handle401();
                             break;
+                            case 422:
+                                this.handle422(errorObj);
+                                break;
                             default:
                                 this.handleDefaultError(errorObj);
                        }
                        console.log(errorObj);
                        return Observable.throw(errorObj);
                    }) as any; 
+    }
+    handle422(errorObj) {
+
+        this.presentAlert('Erro 422: validação', this.listErrors(errorObj.errors), [{text: 'OK'}]);
     }
 
 
@@ -66,6 +74,15 @@ export class ErrorInterceptor implements HttpInterceptor {
             buttons: buttons
         });
         alert.present();
+    }
+
+    private listErrors(messages: FieldMessage[]): string {
+        let s: string = '';
+
+        messages.forEach(message => {
+            s += `<p><strong>${message.fieldName}</strong>: ${message.message}</p>`
+        })
+        return s;
     }
 }
 
