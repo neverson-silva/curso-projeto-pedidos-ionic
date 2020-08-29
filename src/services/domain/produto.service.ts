@@ -21,7 +21,6 @@ export class ProdutoService extends HttpService {
     }
 
     getUrlProduto(id: string) {
-        console.log(id);
         return `${API_CONFIG.bucketBaseUrl}/prod${id}-small.jpg`;
     }
 }
