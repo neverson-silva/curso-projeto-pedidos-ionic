@@ -8,6 +8,11 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab mini>
+      <ion-icon name="cart"></ion-icon>
+    </button>
+  </ion-fab>
   <ion-card>
     <img class="circle" [src]="item?.imageUrl || 'assets/imgs/avatar-blank.png'">
     <ion-card-content>
