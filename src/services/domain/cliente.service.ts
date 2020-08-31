@@ -11,6 +11,11 @@ export class ClienteService extends HttpService{
     constructor(https: HttpClient) {
         super(https);
     }
+    async findById(id: string): Promise<any> {
+        //@ts-ignore
+        return await this.get(`clientes/${id}`);
+    }
+
     async findByEmail(email: string): Promise<any> {
         //@ts-ignore
         return await this.get(`clientes/email?value=${email}`);
