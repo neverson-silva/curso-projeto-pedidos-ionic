@@ -24,9 +24,13 @@ export class ProfilePage {
   async ionViewDidLoad() {
     try {
       const user = this.storage.getLocalUser();
-      this.email = user?.email;
-      this.cliente = await this.clienteService.findByEmail(this.email);
-      await this.getImageIfExists();
+      if (user && user.email) {
+        this.email = user?.email;
+        this.cliente = await this.clienteService.findByEmail(this.email) as ClienteDTO;
+        await this.getImageIfExists();
+      } else {
+        this.navCtrl.setRoot("HomePage");
+      }
     } catch {
 
     }

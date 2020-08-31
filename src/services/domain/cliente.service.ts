@@ -11,7 +11,7 @@ export class ClienteService extends HttpService{
     constructor(https: HttpClient) {
         super(https);
     }
-    async findByEmail(email: string): Promise<ClienteDTO> {
+    async findByEmail(email: string): Promise<any> {
         //@ts-ignore
         return await this.get(`clientes/email?value=${email}`);
     }
