@@ -20,17 +20,21 @@ export class ProdutosPage {
   }
 
   async ionViewDidLoad() {
-    const loader = this.presentLoading();
+    await this.loadData(true);
+  }
+
+  async loadData(shouldPresent: boolean) {
+    const loader = shouldPresent ? this.presentLoading() : null;
 
     try {
       const id = this.navParams.get('categoriaId');
       const response = await this.pds.findByCategoria(id);
       this.items = response.content;
-      loader.dismiss();
+      loader?.dismiss();
       await this.loadImageUrls();
     } catch (e) {
       this.items = [];
-      loader.dismiss();
+      loader?.dismiss();
     }
   }
 
@@ -50,11 +54,18 @@ export class ProdutosPage {
     this.navCtrl.push('ProdutoDetailPage', {produtoId });
   }
 
-  presentLoading() {
+  private presentLoading() {
     const loader = this.loadingCtl.create({
       content: 'Carregando...'
     });
     loader.present();
     return loader;
+  }
+
+  async doRefresh(refresher) {
+
+    await this.loadData(false);
+    refresher.complete();
+
   }
 }
