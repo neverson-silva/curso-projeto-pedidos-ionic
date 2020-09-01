@@ -1,3 +1,5 @@
+import { HttpResponse } from '@angular/common/http';
+import { PedidoService } from './../../services/domain/pedido.service';
 import { ClienteService } from './../../services/domain/cliente.service';
 import { EnderecoDTO } from './../../models/endereco.dto';
 import { ClienteDTO } from './../../models/cliente.dto';
@@ -22,7 +24,8 @@ export class OrderConfirmationPage {
   constructor(public navCtrl: NavController, 
              public navParams: NavParams,
              private cartService: CartService,
-             private clienteService: ClienteService) {
+             private clienteService: ClienteService, 
+             private pedidoService: PedidoService) {
     this.pedido = this.navParams.get('pedido');
   }
 
@@ -35,6 +38,22 @@ export class OrderConfirmationPage {
 
     }
  
+  }
+
+  async checkout() {
+    try {
+      const response = await this.pedidoService.insert(this.pedido) as HttpResponse<ArrayBuffer>;
+      this.cartService.createOrClearCart();
+      console.log(response.headers.get('location'));
+    } catch(e) {
+      if (e.status == 403) {
+        this.navCtrl.setRoot("HomePage");
+      }
+    }
+  }
+
+  back() {
+    this.navCtrl.setRoot("CartPage");
   }
 
   total() {

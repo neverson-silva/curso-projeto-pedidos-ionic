@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { API_CONFIG } from './../config/api.config';
 import { Injectable } from "@angular/core";
 
@@ -42,7 +42,7 @@ export default class HttpService {
         reportProgress?: boolean;
         responseType?: 'json' | 'text';
         withCredentials?: boolean;
-    }, useBaseUrl: boolean = true): Promise<Object> {
+    }, useBaseUrl: boolean = true): Promise<Object | ArrayBuffer| HttpResponse<ArrayBuffer>> {
         url = this.getUrl(url, useBaseUrl);
         //@ts-ignore
         return this.http.post(url, body, options).toPromise();
