@@ -11,7 +11,8 @@ import { ProdutoService } from '../../services/domain/produto.service';
 })
 export class ProdutosPage {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
+  page: number = 0;
 
   constructor(public navCtrl: NavController, 
              public navParams: NavParams,
@@ -28,25 +29,31 @@ export class ProdutosPage {
 
     try {
       const id = this.navParams.get('categoriaId');
-      const response = await this.pds.findByCategoria(id);
-      this.items = response.content;
+      const response = await this.pds.findByCategoria(id, this.page, 10);
+      const start = this.items.length;
+      this.items = [ ...this.items, ...response.content];
+      const end = this.items.length - 1;
+
       loader?.dismiss();
-      await this.loadImageUrls();
+      await this.loadImageUrls(start, end);
+      console.log(this.items);
+
     } catch (e) {
       this.items = [];
       loader?.dismiss();
     }
   }
 
-  async loadImageUrls () {
-      this.items.forEach(async (item) => {
-        try {
-          await this.pds.getSmallImageFromBucket(item.id);
-          item.imageUrl = this.pds.getUrlProduto(item.id);
-        } catch (e) {
-          item.imageUrl = 'assets/imgs/prod.jpg';
-        }
-      });
+  async loadImageUrls (start: number, end: number) {
+
+    for (let i = start; i <= end; i++) {
+      try {
+        await this.pds.getSmallImageFromBucket(this.items[i].id);
+        this.items[i].imageUrl = this.pds.getUrlProduto(this.items[i].id);
+      } catch(e){
+        this.items[i].imageUrl = 'assets/imgs/prod.jpg';
+      }
+    }
 
   } 
   
@@ -64,8 +71,18 @@ export class ProdutosPage {
 
   async doRefresh(refresher) {
 
+    this.page = 0;
+    this.items = [];
     await this.loadData(false);
     refresher.complete();
+
+  }
+
+  async doInfinite(infiniteScroll) {
+
+    this.page += 1;
+    await this.loadData(true);
+    infiniteScroll.complete();
 
   }
 }

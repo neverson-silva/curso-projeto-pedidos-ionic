@@ -11,9 +11,9 @@ export class ProdutoService extends HttpService {
         super(http);
     }
 
-    async findByCategoria(categoriaId: string) {
+    async findByCategoria(categoriaId: string, page: number = 0, linesPerPage: number = 24) {
 
-        return await this.get(`produtos?categorias=${categoriaId}`);
+        return await this.get(`produtos?categorias=${categoriaId}&page=${page}&linesPerPage=${linesPerPage}`);
     }
 
     async findById(categoriaId: string): Promise<ProdutoDTO> {
